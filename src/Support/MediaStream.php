@@ -95,14 +95,14 @@ class MediaStream implements Responsable
     {
         $fileNameCount = 0;
 
-        $fileName = $mediaItems[$currentIndex]->file_name;
+        $fileName = $this->getZipFileNamePrefix($mediaItems, $currentIndex).$mediaItems[$currentIndex]->file_name;
 
         foreach ($mediaItems as $index => $media) {
             if ($index >= $currentIndex) {
                 break;
             }
 
-            if ($media->file_name === $fileName) {
+            if ($this->getZipFileNamePrefix($mediaItems, $index).$media->file_name === $fileName) {
                 $fileNameCount++;
             }
         }
@@ -120,5 +120,5 @@ class MediaStream implements Responsable
     protected function getZipFileNamePrefix(Collection $mediaItems, int $currentIndex): string
     {
         return $mediaItems[$currentIndex]->hasCustomProperty('zip_filename_prefix') ? $mediaItems[$currentIndex]->getCustomProperty('zip_filename_prefix') : '';
-    }
+    } 
 }
